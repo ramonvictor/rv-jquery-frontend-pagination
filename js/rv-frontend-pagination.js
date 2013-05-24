@@ -1,6 +1,6 @@
 /*
- *  Project: RV Font Size jQuery Plugin
- *  Description: An easy and flexible jquery plugin to give font size accessibility control.
+ *  Project: RV Frontend Pagination jQuery Plugin
+ *  Description: A markup-free frontend pagination jquery plugin. Your page can have as many pagination components as you want, ID is not required, you can use css classes.
  *  URL: https://github.com/ramonvictor/rv-jquery-fontsize/
  *  Author: Ramon Victor (https://github.com/ramonvictor/)
  *  License: Licensed under the MIT license:
@@ -17,8 +17,8 @@
             listContainer: '.paginated',
             itemElement: 'li',
             pager: {
-            	nextClass: '.rvlp-next',
-            	prevClass: '.rvlp-prev',
+            	next: '.rvlp-next',
+            	prev: '.rvlp-prev',
             	pages: '.rvlp-pages'
             }
         };
@@ -29,8 +29,7 @@
         _self.element = element;
         _self.options = $.extend({}, defaults, options);
 
-        _self.$container = $( element );
-        
+        _self.$container = $( element );        
 
         _self._defaults = defaults;
         _self._name = rvListPaginate;
@@ -43,8 +42,9 @@
         init: function() {
 
             var _self = this;
-
             _self.paginateRegister();
+
+            /* NOTE: Create refresh public method. */
 
         },
 
@@ -58,6 +58,9 @@
                     _context.$listContainer = $container.find( _self.options.listContainer );
                     _context.$childrenItems = _context.$listContainer.find( _self.options.itemElement );
                     _context.$pagesNumberContainer = $container.find( _self.options.pager.pages );
+                    _context.$pagesNavPrev = $container.find( _self.options.pager.prev );
+                    _context.$pagesNavNext = $container.find( _self.options.pager.next );
+
 
                 
                 if( _context.$childrenItems.length > _self.options.perpage ){
@@ -75,6 +78,7 @@
                         pagesNavHmtl+= '<span class="'+classNames+'" data-show-page="'+ (i+1) +'">'+ (i+1) +'</span>';
                     }
                     _context.$pagesNumberContainer.html( pagesNavHmtl );
+                    _context.pagesNumberLength = _context.$pagesNumberContainer.children().length;
 
                     _self.eventsRegister( _context );
                 }
@@ -82,10 +86,30 @@
 
         },
 
+        getCurrentIndex : function( _context ){
+            return parseInt( _context.$pagesNumberContainer.children('.current').attr('data-show-page'), 10) - 1;
+        },
+
+        updateDisabledNav : function( _context ){
+            var _self = this,
+                index = _self.getCurrentIndex( _context );
+
+            _context.$pagesNavPrev.removeClass('disabled');
+            _context.$pagesNavNext.removeClass('disabled');
+
+            if( index === 0 ){
+               _context.$pagesNavPrev.addClass('disabled');
+            }
+
+            if( index === (_context.pagesNumberLength-1) ){
+               _context.$pagesNavNext.addClass('disabled');
+            }
+        },
+
         eventsRegister : function( _context ) {
             var _self = this;
 
-            _context.$pagesNumberContainer.children().on('click', function(){
+            _context.$pagesNumberContainer.children().on('click.rvPagination', function(){
                 var $element = $(this),
                     showpage = parseInt($element.attr('data-show-page'), 10);
                 
@@ -95,6 +119,23 @@
                 _context.$childrenItems.css('display', 'none').slice( endRange-5 , endRange).show();
 
             }); 
+
+            _context.$pagesNavPrev.on('click', function(){
+                var index = _self.getCurrentIndex( _context ),
+                    $element = $(this);
+                if( index > 0 ){
+                    _context.$pagesNumberContainer.children().eq(index-1).trigger('click.rvPagination');
+                }
+                _self.updateDisabledNav( _context );
+            });
+
+            _context.$pagesNavNext.on('click', function(){
+                var index = _self.getCurrentIndex( _context );
+                if( index < (_context.pagesNumberLength-1)) {
+                    _context.$pagesNumberContainer.children().eq(index+1).trigger('click.rvPagination');
+                }
+                _self.updateDisabledNav( _context );
+            });
         }
 
     };

@@ -3,6 +3,17 @@
 	margin: 0 auto;
 	width: 800px;
 }
-.current{
-	color: red;
+.paginated-nav{
+	.current{
+		color: red;
+	}
+}
+.main-header{
+	font-size: 30px;
+	margin-bottom: 50px;
+	color: #555;
+}
+
+.paginated-container{
+	margin-bottom: 30px;
 }

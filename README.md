@@ -1,4 +1,4 @@
-Ramon Victor Frontend Framework
+RV Frontend Pagination jQuery Plugin
 =====================
 
-Meu framework para desenvolvimento frontend. Baseado no HTML5 Boilerplate (http://br.html5boilerplate.com/).
+A markup-free frontend pagination jquery plugin. Your page can have as many pagination components as you want. ID is not required, you can use css classes.

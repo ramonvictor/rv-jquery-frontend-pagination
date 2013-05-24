@@ -1,7 +1,7 @@
 /*
  *  Project: RV Frontend Pagination jQuery Plugin
  *  Description: A markup-free frontend pagination jquery plugin. Your page can have as many pagination components as you want. ID is not required, you can use css classes.
- *  URL: https://github.com/ramonvictor/rv-jquery-fontsize/
+ *  URL: https://github.com/ramonvictor/rv-jquery-frontend-pagination/
  *  Author: Ramon Victor (https://github.com/ramonvictor/)
  *  License: Licensed under the MIT license:
  *  http://www.opensource.org/licenses/mit-license.php

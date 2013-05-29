@@ -14,7 +14,7 @@
     var rvListPaginate = "rvListPaginate",
         defaults = {
             perpage: 5,
-            listContainer: '.paginated',
+            listContainer: '.paginated-list',
             itemElement: 'li',
             pager: {
             	next: '.rvlp-next',
@@ -81,6 +81,7 @@
                     _context.pagesNumberLength = _context.$pagesNumberContainer.children().length;
 
                     _self.eventsRegister( _context );
+                    _self.updateDisabledNav( _context );
                 }
             });
 
@@ -116,7 +117,9 @@
                 $element.addClass('current').siblings().removeClass('current');
 
                 var endRange = showpage * _self.options.perpage;        
-                _context.$childrenItems.css('display', 'none').slice( endRange-5 , endRange).show();
+                _context.$childrenItems.css('display', 'none').slice( endRange - _self.options.perpage , endRange).show();
+
+                _self.updateDisabledNav( _context );
 
             }); 
 
